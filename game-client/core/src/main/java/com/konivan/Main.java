@@ -1,0 +1,103 @@
+package com.konivan;
+
+import com.badlogic.gdx.ApplicationAdapter;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.konivan.system.CameraSystem;
+import games.rednblack.editor.renderer.SceneConfiguration;
+import games.rednblack.editor.renderer.SceneLoader;
+import games.rednblack.editor.renderer.resources.AsyncResourceManager;
+import games.rednblack.editor.renderer.resources.ResourceManagerLoader;
+import games.rednblack.editor.renderer.utils.ItemWrapper;
+
+/** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
+public class Main extends ApplicationAdapter {
+    private SpriteBatch batch;
+    private Texture image;
+
+    private AssetManager mAssetManager;
+
+    private SceneLoader mSceneLoader;
+    private AsyncResourceManager mAsyncResourceManager;
+
+    private Viewport mViewport;
+    private OrthographicCamera mCamera;
+
+    private com.artemis.World mEngine;
+
+    private ExtendViewport mHUDViewport;
+
+    private ShapeRenderer shapeRenderer;
+
+    private ScreenViewport screenViewport;
+
+    @Override
+    public void create() {
+
+        shapeRenderer = new ShapeRenderer();
+        screenViewport = new ScreenViewport();
+
+        mAssetManager = new AssetManager();
+        mAssetManager.setLoader(AsyncResourceManager.class, new ResourceManagerLoader(mAssetManager.getFileHandleResolver()));
+        mAssetManager.load("project.dt", AsyncResourceManager.class);
+
+        mAssetManager.finishLoading();
+
+        mAsyncResourceManager = mAssetManager.get("project.dt", AsyncResourceManager.class);
+        SceneConfiguration config = new SceneConfiguration();
+        config.setResourceRetriever(mAsyncResourceManager);
+        CameraSystem cameraSystem = new CameraSystem(5, 40, 5, 6);
+        config.addSystem(cameraSystem);
+        mSceneLoader = new SceneLoader(config);
+        mEngine = mSceneLoader.getEngine();
+
+        mCamera = new OrthographicCamera();
+        mViewport = new ExtendViewport(15, 8, mCamera);
+
+        mSceneLoader.loadScene("MainScene", mViewport);
+
+        ItemWrapper root = new ItemWrapper(mSceneLoader.getRoot(), mEngine);
+
+        ItemWrapper player = root.getChild("player");
+
+        cameraSystem.setFocus(player.getEntity());
+//        batch = new SpriteBatch();
+//        image = new Texture("libgdx.png");
+    }
+
+    @Override
+    public void render() {
+//        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
+//        batch.begin();
+//        batch.draw(image, 140, 210);
+//        batch.end();
+        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        mViewport.apply();
+        mEngine.process();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        mViewport.update(width, height);
+
+        if (width != 0 && height != 0)
+            mSceneLoader.resize(width, height);
+    }
+
+    @Override
+    public void dispose() {
+        mAssetManager.dispose();
+        mSceneLoader.dispose();
+    }
+}
