@@ -10,6 +10,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.konivan.system.CameraSystem;
@@ -61,7 +62,7 @@ public class Main extends ApplicationAdapter {
         mEngine = mSceneLoader.getEngine();
 
         mCamera = new OrthographicCamera();
-        mViewport = new ExtendViewport(15, 8, mCamera);
+        mViewport = new FitViewport(800, 600, mCamera);
 
         mSceneLoader.loadScene("MainScene", mViewport);
 
@@ -70,17 +71,12 @@ public class Main extends ApplicationAdapter {
         ItemWrapper player = root.getChild("player");
 
         cameraSystem.setFocus(player.getEntity());
-//        batch = new SpriteBatch();
-//        image = new Texture("libgdx.png");
+
     }
 
     @Override
     public void render() {
-//        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-//        batch.begin();
-//        batch.draw(image, 140, 210);
-//        batch.end();
-        Gdx.gl.glClearColor(0, 0, 0, 0);
+        Gdx.gl.glClearColor(0, 10, 0, 0);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         mViewport.apply();
