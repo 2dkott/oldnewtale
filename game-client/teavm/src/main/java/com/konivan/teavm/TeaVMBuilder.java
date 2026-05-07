@@ -132,6 +132,7 @@ public class TeaVMBuilder {
             .addReflectionClass("games.rednblack.talos.runtime.serialization.**")
             .addReflectionClass("games.rednblack.talos.runtime.modules.**")
             .addReflectionClass("com.konivan.system.**")
+
             .build(new File("build/dist"));
     }
 }
