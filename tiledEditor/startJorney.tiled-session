@@ -1,0 +1,38 @@
+{
+    "activeFile": "startJorney.tmx",
+    "expandedProjectPaths": [
+        "."
+    ],
+    "fileStates": {
+        ":/automap-tiles.tsx": {
+            "scaleInDock": 1
+        },
+        "port.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "startJorney.tmx": {
+            "scale": 1,
+            "selectedLayer": 0,
+            "viewCenter": {
+                "x": 670,
+                "y": 560.5
+            }
+        },
+        "startJorney.tmx#port": {
+            "scaleInDock": 1
+        }
+    },
+    "last.imagePath": "C:/MyData/Projects/AncientStory/aseprite/bacground/antibarium",
+    "map.lastUsedFormat": "tmx",
+    "openFiles": [
+        "startJorney.tmx",
+        "port.tsx"
+    ],
+    "project": "startJorney.tiled-project",
+    "recentFiles": [
+        "port.tsx",
+        "startJorney.tmx"
+    ],
+    "tileset.lastUsedFormat": "tsx"
+}
