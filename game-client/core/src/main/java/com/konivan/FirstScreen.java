@@ -1,17 +1,38 @@
 package com.konivan;
 
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.physics.box2d.World;
+import com.konivan.systems.RenderSystem;
 
 /** First screen of the application. Displayed after the application is created. */
 public class FirstScreen implements Screen {
+
+    Engine engine;
+    RenderSystem renderSystem;
+
+    public FirstScreen(Engine engine) {
+        this.engine = engine;
+    }
+
     @Override
     public void show() {
-        // Prepare your screen here.
+
+        renderSystem = engine.getSystem(RenderSystem.class);
+
     }
 
     @Override
     public void render(float delta) {
         // Draw your screen here. "delta" is the time since last render in seconds.
+        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        engine.update(delta);
     }
 
     @Override
