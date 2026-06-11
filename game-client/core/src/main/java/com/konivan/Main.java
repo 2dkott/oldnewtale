@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.profiling.GLProfiler;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.konivan.systems.CameraSystem;
 import com.konivan.systems.RenderSystem;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
@@ -53,6 +54,7 @@ public class Main extends Game {
         engine = new PooledEngine();
 
         engine.addSystem(renderingSystem);
+        engine.addSystem(new CameraSystem(camera));
 
         setScreen(new FirstScreen(engine));
 
