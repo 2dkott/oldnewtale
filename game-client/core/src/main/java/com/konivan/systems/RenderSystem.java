@@ -5,44 +5,34 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.SortedIteratingSystem;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FillViewport;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import com.konivan.components.TextureComponent;
 import com.konivan.components.TransformComponent;
 import com.konivan.render.ZComparator;
+import lombok.Getter;
 
 import java.util.Comparator;
 
+@Getter
 public class RenderSystem extends SortedIteratingSystem {
 
-    static final float PPM = 32.0f; // sets the amount of pixels each metre of box2d objects contains
+    static final float PPM = 64.0f; // sets the amount of pixels each metre of box2d objects contains
 
-    // this gets the height and width of our camera frustrum based off the width and height of the screen and our pixel per meter ratio
     static final float FRUSTUM_WIDTH = Gdx.graphics.getWidth()/PPM;
     static final float FRUSTUM_HEIGHT = Gdx.graphics.getHeight()/PPM;
 
     public static final float PIXELS_TO_METRES = 1.0f / PPM; // get the ratio for converting pixels to metres
 
-    // static method to get screen width in metres
-    private static Vector2 meterDimensions = new Vector2();
-    private static Vector2 pixelDimensions = new Vector2();
-    public static Vector2 getScreenSizeInMeters(){
-        meterDimensions.set(Gdx.graphics.getWidth()*PIXELS_TO_METRES,
-            Gdx.graphics.getHeight()*PIXELS_TO_METRES);
-        return meterDimensions;
-    }
-
-    // static method to get screen size in pixels
-    public static Vector2 getScreenSizeInPixesl(){
-        pixelDimensions.set(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        return pixelDimensions;
-    }
-
-    // convenience method to convert pixels to meters
     public static float PixelsToMeters(float pixelValue){
         return pixelValue * PIXELS_TO_METRES;
     }
@@ -50,7 +40,7 @@ public class RenderSystem extends SortedIteratingSystem {
     private SpriteBatch batch; // a reference to our spritebatch
     private Array<Entity> renderQueue; // an array used to allow sorting of images allowing us to draw images on top of each other
     private Comparator<Entity> comparator; // a comparator to sort images based on the z position of the transfromComponent
-    private OrthographicCamera cam; // a reference to our camera
+    private OrthographicCamera camera; // a reference to our camera
 
     // component mappers to get components from entities
     private ComponentMapper<TextureComponent> textureM;
@@ -58,6 +48,7 @@ public class RenderSystem extends SortedIteratingSystem {
     private OrthogonalTiledMapRenderer renderer;
 
     private TiledMap currentMap;
+    private Viewport viewport;
 
     public void setCurrentMap(TiledMap currentMap) {
         this.currentMap = currentMap;
@@ -65,7 +56,7 @@ public class RenderSystem extends SortedIteratingSystem {
     }
 
     @SuppressWarnings("unchecked")
-    public RenderSystem(SpriteBatch batch) {
+    public RenderSystem(SpriteBatch batch, Viewport viewport, OrthographicCamera camera) {
         // gets all entities with a TransofmComponent and TextureComponent
         super(Family.all(TransformComponent.class, TextureComponent.class).get(), new ZComparator());
 
@@ -73,42 +64,43 @@ public class RenderSystem extends SortedIteratingSystem {
         textureM = ComponentMapper.getFor(TextureComponent.class);
         transformM = ComponentMapper.getFor(TransformComponent.class);
 
-        // create the array for sorting entities
-        renderQueue = new Array<Entity>();
-
-        this.batch = batch;  // set our batch to the one supplied in constructor
-
-        // set up the camera to match our screen size
-        cam = new OrthographicCamera(FRUSTUM_WIDTH, FRUSTUM_HEIGHT);
-        cam.position.set(FRUSTUM_WIDTH / 2f, FRUSTUM_HEIGHT / 2f, 0);
+        this.batch = batch;
+        this.viewport = viewport;
+        this.camera = camera;
+        this.renderer = new OrthogonalTiledMapRenderer(null,1 / 64f, batch);
     }
 
     @Override
     public void update(float deltaTime) {
+       //AnimatedTiledMapTile.updateAnimationBaseTime();
+        ScreenUtils.clear(Color.WHITE);
+
+        camera.update();
+
+        batch.setProjectionMatrix(viewport.getCamera().combined);
+
+        batch.begin();
+        batch.setColor(Color.WHITE);
+        this.renderer.setView(camera);
+        this.renderer.render();
+        //bgdLayers.forEach(tiledRenderer::renderMapLayer);
+
+        forceSort();
+
         super.update(deltaTime);
 
-        // sort the renderQueue based on z index
-        renderQueue.sort(comparator);
+        batch.setColor(Color.WHITE);
+        //fgdLayers.forEach(tiledRenderer::renderMapLayer);
+        batch.end();
+    }
 
-        // update camera and sprite batch
-        cam.update();
-        batch.setProjectionMatrix(cam.combined);
-        batch.enableBlending();
-        batch.begin();
+    @Override
+    protected void processEntity(Entity entity, float deltaTime) {
 
-        renderer.setView(cam);
+            batch.setProjectionMatrix(camera.combined);
 
-        renderer.render();
-
-        // loop through each entity in our render queue
-        for (Entity entity : renderQueue) {
             TextureComponent tex = textureM.get(entity);
             TransformComponent t = transformM.get(entity);
-
-            if (tex.region == null || t.isHidden) {
-                continue;
-            }
-
 
             float width = tex.region.getRegionWidth();
             float height = tex.region.getRegionHeight();
@@ -122,19 +114,6 @@ public class RenderSystem extends SortedIteratingSystem {
                 width, height,
                 PixelsToMeters(t.scale.x), PixelsToMeters(t.scale.y),
                 t.rotation);
-        }
-
-        batch.end();
-        renderQueue.clear();
     }
 
-    @Override
-    public void processEntity(Entity entity, float deltaTime) {
-        renderQueue.add(entity);
-    }
-
-    // convenience method to get camera
-    public OrthographicCamera getCamera() {
-        return cam;
-    }
 }
