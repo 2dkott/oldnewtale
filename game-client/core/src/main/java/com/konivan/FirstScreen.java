@@ -1,12 +1,10 @@
 package com.konivan;
 
 import com.badlogic.ashley.core.Engine;
-import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.physics.box2d.World;
+import com.konivan.characters.Player;
 import com.konivan.systems.RenderSystem;
 
 /** First screen of the application. Displayed after the application is created. */
@@ -23,6 +21,8 @@ public class FirstScreen implements Screen {
     public void show() {
 
         renderSystem = engine.getSystem(RenderSystem.class);
+        var player = new Player(engine.createEntity());
+        engine.addEntity(player.getEntity());
 
     }
 
@@ -40,6 +40,8 @@ public class FirstScreen implements Screen {
         // If the window is minimized on a desktop (LWJGL3) platform, width and height are 0, which causes problems.
         // In that case, we don't resize anything, and wait for the window to be a normal size before updating.
         if(width <= 0 || height <= 0) return;
+
+        renderSystem.getViewport().update(width, height, true);
 
         // Resize your screen here. The parameters represent the new window size.
     }
