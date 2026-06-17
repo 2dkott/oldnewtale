@@ -56,6 +56,14 @@ public class TeaVMBuilder {
             .addReflectionClass("com.kotcrab.vis.ui.Sizes")
             .addReflectionClass("com.kotcrab.vis.ui.util.adapter.SimpleListAdapter")
             .addReflectionClass("com.kotcrab.vis.ui.**Style")
+            .addReflectionClass("сom.konivan.render.ZComparator")
+            .addReflectionClass("com.konivan.components.TransformComponent")
+            .addReflectionClass("com.konivan.components.TextureComponent")
+            .addReflectionClass("com.konivan.components.CamerTargetComponent")
+            .addReflectionClass("com.konivan.systems.RenderSystem")
+            .addReflectionClass("com.konivan.systems.CameraSystem")
+            .addReflectionClass("com.konivan.characters.Character")
+            .addReflectionClass("com.konivan.characters.Player")
             .build(new File("build/dist"));
     }
 }
