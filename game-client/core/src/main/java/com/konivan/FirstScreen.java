@@ -4,6 +4,12 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+import com.konivan.characters.CharacterCreator;
 import com.konivan.characters.Player;
 import com.konivan.systems.RenderSystem;
 
@@ -13,17 +19,27 @@ public class FirstScreen implements Screen {
     Engine engine;
     RenderSystem renderSystem;
 
-    public FirstScreen(Engine engine) {
+
+
+    private final Viewport uiViewport;
+
+    private CharacterCreator creator;
+
+    public FirstScreen(Engine engine, World world) {
         this.engine = engine;
+
+
+        creator = new CharacterCreator(world, engine);
+
+        this.uiViewport = new FitViewport(320f, 180f);
     }
 
     @Override
     public void show() {
 
         renderSystem = engine.getSystem(RenderSystem.class);
-        var player = new Player(engine.createEntity());
+        var player = creator.createPlayer();
         engine.addEntity(player.getEntity());
-
     }
 
     @Override
