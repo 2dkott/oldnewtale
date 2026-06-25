@@ -9,19 +9,20 @@ import lombok.Getter;
 @Getter
 public class Character {
 
-    private final TextureComponent textureComponent;
-    private final TransformComponent transformComponent;
-    private final CamerTargetComponent camerTargetComponent;
-    private final Entity entity;
+	private final TextureComponent textureComponent;
+	private final TransformComponent transformComponent;
+	private final CamerTargetComponent camerTargetComponent;
+	private final Entity entity;
 
-    public Character(Entity entity) {
-        this.entity = entity;
-        textureComponent = new TextureComponent();
-        transformComponent = new TransformComponent();
-        camerTargetComponent = new CamerTargetComponent();
+	public Character(Entity entity) {
 
-        entity.add(textureComponent);
-        entity.add(transformComponent);
-        entity.add(camerTargetComponent);
-    }
+		this.entity = entity;
+		textureComponent = new TextureComponent();
+		transformComponent = new TransformComponent();
+		camerTargetComponent = new CamerTargetComponent();
+
+		entity.add(textureComponent);
+		entity.add(transformComponent);
+		entity.add(camerTargetComponent);
+	}
 }
