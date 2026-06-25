@@ -57,13 +57,31 @@ public class TeaVMBuilder {
             .addReflectionClass("com.kotcrab.vis.ui.util.adapter.SimpleListAdapter")
             .addReflectionClass("com.kotcrab.vis.ui.**Style")
             .addReflectionClass("сom.konivan.render.ZComparator")
+            // Add component here
             .addReflectionClass("com.konivan.components.TransformComponent")
             .addReflectionClass("com.konivan.components.TextureComponent")
             .addReflectionClass("com.konivan.components.CamerTargetComponent")
+            .addReflectionClass("com.konivan.components.PhysicComponent")
+            .addReflectionClass("com.konivan.components.MoveComponent")
+            .addReflectionClass("com.konivan.components.ControllerComponent")
+            // add system here
             .addReflectionClass("com.konivan.systems.RenderSystem")
             .addReflectionClass("com.konivan.systems.CameraSystem")
+            .addReflectionClass("com.konivan.systems.InputSystem")
+            .addReflectionClass("com.konivan.systems.MoveSystem")
+            .addReflectionClass("com.konivan.systems.PhysicSystem")
+            .addReflectionClass("com.konivan.systems.PhysicsRenderSystem")
+            // add character here
             .addReflectionClass("com.konivan.characters.Character")
             .addReflectionClass("com.konivan.characters.Player")
+            .addReflectionClass("com.konivan.characters.CharacterCreator")
+            // add input here
+            .addReflectionClass("com.konivan.input.UiControllerState")
+            .addReflectionClass("com.konivan.input.PlayTimeControllerState")
+            .addReflectionClass("com.konivan.input.KeyboardInputController")
+            .addReflectionClass("com.konivan.input.InputControllerState")
+            .addReflectionClass("com.konivan.input.IdleControllerState")
+
             .build(new File("build/dist"));
     }
 }
