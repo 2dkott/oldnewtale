@@ -6,7 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import lombok.Getter;
 
 @Getter
-public class TransformComponent  implements Component {
+public class TransformComponent implements Component {
 
     public static final ComponentMapper<TransformComponent> MAPPER = ComponentMapper.getFor(TransformComponent.class);
 

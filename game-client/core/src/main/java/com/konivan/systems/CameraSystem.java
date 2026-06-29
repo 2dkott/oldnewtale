@@ -5,22 +5,19 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector2;
+import com.konivan.camera.GameCamera;
 import com.konivan.components.CamerTargetComponent;
 import com.konivan.components.TransformComponent;
 
 public class CameraSystem extends IteratingSystem {
 
-    private Camera camera;
-    private final float smoothingFactor = 0.05f;
-
-    private Vector2 targetPosition = new Vector2();
+    private final Camera camera;
 
     private final ComponentMapper<TransformComponent> transformMapper =  ComponentMapper.getFor(TransformComponent.class);
 
-    public CameraSystem(Camera camera) {
+    public CameraSystem(GameCamera camera) {
         super(Family.all(CamerTargetComponent.class, TransformComponent.class).get());
-        this.camera = camera;
+        this.camera = camera.getCamera();
     }
 
     @Override

@@ -39,12 +39,16 @@ public class KeyboardInputController extends InputAdapter {
     }
 
     public void setActiveState(Class<? extends InputControllerState> stateClass) {
+
         InputControllerState state = stateCache.get(stateClass);
+
         if (state == null) {
+
             throw new GdxRuntimeException("State " + stateClass.getSimpleName() + " not found in cache");
         }
 
         for (CommandTypes command : CommandTypes.values()) {
+
             if (this.activeState != null && this.commandState[command.ordinal()]) {
                 this.activeState.keyUp(command);
             }
@@ -55,18 +59,23 @@ public class KeyboardInputController extends InputAdapter {
 
     @Override
     public boolean keyDown(int keycode) {
+
         CommandTypes command = INPUT_MAP.get(keycode);
         if (command == null) return false;
 
         this.commandState[command.ordinal()] = true;
         this.activeState.keyDown(command);
+
         return true;
     }
 
     @Override
     public boolean keyUp(int keycode) {
+
         CommandTypes command = INPUT_MAP.get(keycode);
+
         if (command == null) return false;
+
         // if a button was not pressed before, ignore it
         if (!this.commandState[command.ordinal()]) return false;
 
