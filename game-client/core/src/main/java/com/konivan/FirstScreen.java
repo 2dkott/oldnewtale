@@ -4,7 +4,8 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.konivan.characters.CharacterCreator;
+import com.konivan.domain.characters.Player;
+import com.konivan.services.CharacterService;
 import com.konivan.systems.RenderSystem;
 
 /**
@@ -14,20 +15,19 @@ public class FirstScreen implements Screen {
 
 	private final Engine engine;
 	private final RenderSystem renderSystem;
-	private final CharacterCreator creator;
+	private final CharacterService characterService;
 
-	public FirstScreen(Engine engine, CharacterCreator characterCreator) {
+	public FirstScreen(Engine engine, CharacterService characterService) {
 
 		this.engine = engine;
-		this.creator = characterCreator;
+		this.characterService = characterService;
 		this.renderSystem = engine.getSystem(RenderSystem.class);
 	}
 
 	@Override
 	public void show() {
 
-		var player = creator.createPlayer();
-		engine.addEntity(player.getEntity());
+		var player = characterService.createPlayer(new Player());
 	}
 
 	@Override

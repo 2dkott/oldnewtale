@@ -12,9 +12,9 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.World;
-import com.konivan.camera.GameCameraImpl;
-import com.konivan.characters.CharacterCreator;
+import com.konivan.domain.camera.GameCameraImpl;
 import com.konivan.input.InputManager;
+import com.konivan.services.CharacterService;
 import com.konivan.systems.*;
 
 /**
@@ -62,7 +62,7 @@ public class Main extends Game {
 
 		engine.addSystem(new PhysicsRenderSystem(physicWorld, gameCamera));
 
-		setScreen(new FirstScreen(engine, new CharacterCreator(physicWorld, engine)));
+		setScreen(new FirstScreen(engine, new CharacterService(physicWorld, engine)));
 
 		glProfiler = new GLProfiler(Gdx.graphics);
 		glProfiler.enable();
