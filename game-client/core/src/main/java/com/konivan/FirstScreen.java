@@ -4,7 +4,10 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
+import com.konivan.domain.assets.AssetService;
 import com.konivan.domain.characters.Player;
+import com.konivan.domain.levels.GameLevel;
+import com.konivan.domain.levels.StartLevel;
 import com.konivan.services.CharacterService;
 import com.konivan.systems.RenderSystem;
 
@@ -16,18 +19,24 @@ public class FirstScreen implements Screen {
 	private final Engine engine;
 	private final RenderSystem renderSystem;
 	private final CharacterService characterService;
+	private final AssetService assetService;
+	private final GameLevel gameLevel;
 
-	public FirstScreen(Engine engine, CharacterService characterService) {
+	public FirstScreen(Engine engine, CharacterService characterService, AssetService assetService) {
 
+		this.assetService = assetService;
 		this.engine = engine;
 		this.characterService = characterService;
 		this.renderSystem = engine.getSystem(RenderSystem.class);
+		this.gameLevel = new StartLevel();
 	}
 
 	@Override
 	public void show() {
 
 		var player = characterService.createPlayer(new Player());
+		var levelTiledMap = assetService.load(gameLevel.getTiledMapAsset());
+		renderSystem.setCurrentMap(levelTiledMap);
 	}
 
 	@Override
