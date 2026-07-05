@@ -1,4 +1,4 @@
-package com.konivan.camera;
+package com.konivan.domain.camera;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;

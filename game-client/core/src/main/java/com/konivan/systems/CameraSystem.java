@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
-import com.konivan.camera.GameCamera;
+import com.konivan.domain.camera.GameCamera;
 import com.konivan.components.CamerTargetComponent;
 import com.konivan.components.TransformComponent;
 
