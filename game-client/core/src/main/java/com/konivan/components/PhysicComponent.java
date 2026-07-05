@@ -8,6 +8,7 @@ import lombok.Data;
 
 @Data
 public class PhysicComponent implements Component {
+
 	public static final ComponentMapper<PhysicComponent> MAPPER = ComponentMapper.getFor(PhysicComponent.class);
 
 	private final Body body;
