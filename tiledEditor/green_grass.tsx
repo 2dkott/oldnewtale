@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.1" name="green_grass" tilewidth="64" tileheight="64" tilecount="64" columns="8">
- <image source="../game-client/assets/maps/nature/grass/green_grass.png" width="512" height="512"/>
-</tileset>
+version https://git-lfs.github.com/spec/v1
+oid sha256:3502a068a68f6aad507f61c7c36d9aa114692929c6eb0507007420df7f75f3d1
+size 278

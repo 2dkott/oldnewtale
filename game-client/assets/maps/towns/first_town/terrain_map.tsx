@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.12.2" name="terrain_map" tilewidth="64" tileheight="64" tilecount="64" columns="8">
- <image source="terrain_map.png" width="512" height="512"/>
-</tileset>
+version https://git-lfs.github.com/spec/v1
+oid sha256:64cb66eecc743c72553128922ae9c70806d94d567133a6449efb3584dc6b10bf
+size 234
