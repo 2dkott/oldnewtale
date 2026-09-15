@@ -4,16 +4,74 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_eqg0p"]
 
+[sub_resource type="Gradient" id="Gradient_uhqqe"]
+offsets = PackedFloat32Array(0.2, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ia1lp"]
+noise_type = 2
+frequency = 0.03
+cellular_jitter = 3.0
+cellular_return_type = 0
+domain_warp_enabled = true
+domain_warp_type = 1
+domain_warp_amplitude = 50.0
+domain_warp_fractal_type = 2
+domain_warp_fractal_lacunarity = 1.5
+domain_warp_fractal_gain = 1.0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_sasra"]
+noise = SubResource("FastNoiseLite_ia1lp")
+color_ramp = SubResource("Gradient_uhqqe")
+seamless = true
+
+[sub_resource type="Terrain3DMaterial" id="Terrain3DMaterial_coq8p"]
+_shader_parameters = {
+&"bias_distance": null,
+&"blend_sharpness": null,
+&"depth_blur": null,
+&"enable_macro_variation": null,
+&"enable_projection": null,
+&"flat_terrain_normals": null,
+&"macro_variation1": null,
+&"macro_variation2": null,
+&"macro_variation_slope": null,
+&"mipmap_bias": null,
+&"noise1_angle": null,
+&"noise1_offset": null,
+&"noise1_scale": null,
+&"noise2_scale": null,
+&"noise_texture": SubResource("NoiseTexture2D_sasra"),
+&"projection_threshold": null
+}
+show_checkered = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nij2"]
+transparency = 4
+cull_mode = 2
+vertex_color_use_as_albedo = true
+backlight_enabled = true
+backlight = Color(0.5, 0.5, 0.5, 1)
+distance_fade_mode = 1
+distance_fade_min_distance = 128.0
+distance_fade_max_distance = 96.0
+
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_7cbxl"]
+generated_type = 1
+height_offset = 0.5
+material_override = SubResource("StandardMaterial3D_2nij2")
+last_lod = 0
+last_shadow_lod = 0
+lod0_range = 128.0
+
+[sub_resource type="Terrain3DAssets" id="Terrain3DAssets_8pr8v"]
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_7cbxl")])
+
 [node name="TestScene" type="Node3D" unique_id=560122261]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1320966634]
 transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, -13.339759, 9.844889, 0)
 shadow_enabled = true
-
-[node name="testPlane" type="CSGBox3D" parent="." unique_id=1306653360]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.1431064, 0)
-use_collision = true
-size = Vector3(24.286865, 0.29003906, 26.021484)
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=656234387]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3308828, 0)
@@ -27,3 +85,11 @@ size = Vector3(1.0380859, 1.9528809, 1.1486816)
 
 [node name="Camera3D" type="Camera3D" parent="CharacterBody3D" unique_id=112433572]
 transform = Transform3D(1, 0, 0, 0, 0.40127358, 0.9159583, 0, -0.9159583, 0.40127358, 0.020569026, 6.4564924, 1.7525076)
+
+[node name="Terrain3D" type="Terrain3D" parent="." unique_id=1216675985]
+data_directory = "res://terrain"
+material = SubResource("Terrain3DMaterial_coq8p")
+assets = SubResource("Terrain3DAssets_8pr8v")
+show_checkered = true
+top_level = true
+metadata/_edit_lock_ = true
