@@ -46,7 +46,7 @@ _shader_parameters = {
 }
 show_checkered = true
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2nij2"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_uhqqe"]
 transparency = 4
 cull_mode = 2
 vertex_color_use_as_albedo = true
@@ -56,16 +56,16 @@ distance_fade_mode = 1
 distance_fade_min_distance = 128.0
 distance_fade_max_distance = 96.0
 
-[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_7cbxl"]
+[sub_resource type="Terrain3DMeshAsset" id="Terrain3DMeshAsset_ia1lp"]
 generated_type = 1
 height_offset = 0.5
-material_override = SubResource("StandardMaterial3D_2nij2")
+material_override = SubResource("StandardMaterial3D_uhqqe")
 last_lod = 0
 last_shadow_lod = 0
 lod0_range = 128.0
 
 [sub_resource type="Terrain3DAssets" id="Terrain3DAssets_8pr8v"]
-mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_7cbxl")])
+mesh_list = Array[Terrain3DMeshAsset]([SubResource("Terrain3DMeshAsset_ia1lp")])
 
 [node name="TestScene" type="Node3D" unique_id=560122261]
 
